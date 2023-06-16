@@ -33,7 +33,7 @@ let g:conjure#client#fennel#stdio#prompt_pattern = "\n"
 
 ## The idea
 
-Fennel compiles to Lua, so there are several potential ways to adapt the system to accept Fennel.
+Fennel compiles to Lua and Norns has a Lua REPL that is exposed via websockets at port `5555`, so there are several potential ways to adapt the system to accept Fennel scripts and REPL communication.
 
 I wanted an approach that required little or no modification to the Norns codebase itself.
 
