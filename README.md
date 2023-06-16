@@ -6,7 +6,32 @@ Some folks [have been curious](https://llllllll.co/t/fennel-lua-compatible-lisp-
 
 This project is an example of how to communicate to Norns via Fennel, both via a REPL and at the entire script level.
 
-## the idea
+## TL;DR
+
+### Script setup
+- ssh into your norns
+- `cd dust/code`
+- `git clone https://github.com/philomates/fennel-on-norns`
+- `make funcho`
+- run the script on Norns
+
+### Text-editor setup
+
+- Install NeoVim and the Conjure REPL plugin.
+- [patch your local Conjure install directory with these changes](https://github.com/Olical/conjure/commit/8a759016ef60890db4a9f94ef38ec8af727fb490) and run `make compile` in that directory
+- Use the following vimscript configuration for Conjure, where the IP in `ws://192.168.178.114:5555` points to your Norns
+```vimscript
+let g:conjure#filetype#fennel = "conjure.client.fennel.stdio"
+let g:conjure#client#fennel#stdio#format = "eval_base64(\"%s\")"
+let g:conjure#client#fennel#stdio#compile = 1
+let g:conjure#client#fennel#stdio#command = "fennel"
+let g:conjure#client#fennel#stdio#encoding = "base64"
+let g:conjure#client#fennel#stdio#command = "websocat --protocol bus.sp.nanomsg.org ws://192.168.178.114:5555"
+let g:conjure#client#fennel#stdio#prompt_pattern = "\n"
+```
+- Open Fennel file with NeoVim and start sending forms to the REPL!
+
+## The idea
 
 Fennel compiles to Lua, so there are several potential ways to adapt the system to accept Fennel.
 
