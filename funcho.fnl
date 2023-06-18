@@ -20,8 +20,15 @@
 (set hi_level 20)
 (set lo_level 2)
 
+
+(set scale-names [])
+; (for [i 1 (length music-util.SCALES)] (table.insert scale-names (string.lower (. music-util :SCALES i :name))))
+
+(set root-note 60)
+(set scale-id 20)
+
 (global build-scale
-  (fn [] (set scale (music-util.generate_scale_of_length 60 5 16))))
+  (fn [] (set scale (music-util.generate_scale_of_length root-note scale-id 16))))
 
 (global repeat
   (fn [count element]
@@ -41,7 +48,7 @@
 (global min (fn [x y] (if (< x y) x y)))
 
 (set notes {:pos 1})
-(tset notes :length 9)
+(tset notes :length 7)
 (tset notes :data [3 0 1 5 0 2 9 7 0 0 0 0 0 0 0 0])
 
 (set trans {:pos 1})
@@ -50,7 +57,7 @@
 
 (set mute {:pos 1})
 (tset mute :length 6)
-(tset mute :data [1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0])
+(tset mute :data [1 0 1 1 1 0 0 0 0 0 0 0 0 0 0 0])
 
 (set shift {:pos 1})
 (tset shift :length 6)
@@ -58,11 +65,11 @@
 
 (set vol {:pos 1})
 (tset vol :length 5)
-(tset vol :data [1 2 0 2 3 8 0 0 0 0 0 0 0 0 0 0])
+(tset vol :data [1 2 6 2 3 8 0 0 0 0 0 0 0 0 0 0])
 
 (set speed {:pos 1})
-(tset speed :length 6)
-(tset speed :data [4 4 2 4 4 1 1 1 1 1 1 1 1 1 1 1])
+(tset speed :length 16)
+(tset speed :data [4 4 8 4 4 4 4 4 4 4 4 4 2 4 4 4])
 
 (set running true)
 
@@ -81,7 +88,7 @@
 (global inner-step
   (fn []
     (let [div (. speed.data speed.pos)]
-      (clock.sync (/ 1 (if (< 1 div) 1 div))))
+      (clock.sync (/ 1 (if (< div 1) 1 div))))
     (when running
       (update-pos notes true)
       (update-pos trans false)
