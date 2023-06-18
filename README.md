@@ -125,12 +125,20 @@ One draw-back of the approach of compiling Fennel to Lua and sending it to the N
 
 ## current issues and stumbling blocks
 
+### restarting after a crash
+
+you can reload the script by sending the following to the REPL
+
+```fennel
+(norns.script.load "code/fennel-on-norns/funcho.lua")
+```
+
+or sometimes rerunning init works:
+
+```fennel
+(init)
+```
+
 ### locals vs globals
 
 When interacting with the Lua repl, you'll probably have issues accessing the locals of your Norns script. This applies also to Fennel, so if you are getting reference issues, try changing from locals to globals.
-
-### issues installing the eval/base64-decode/pretty-print shim
-
-The second time I load the `funcho` script, the `eval_base64` shim doesn't seem to get registered. The only way I've found to get it to work is to restart matron: `systemctl restart "norns-matron.service"`
-
-My (shot in the dark) hunch is it has to due with the usage of the `--require-as-include` Fennel compiler flag, which emits `package.preload` Lua forms that maybe have weird caching/reloading behavior(?)

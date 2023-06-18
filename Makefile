@@ -6,7 +6,8 @@ lib/shim: lib/shim.fnl
 	./fennel --compile --require-as-include $< > $@.lua
 
 funcho: funcho.fnl fennel lib/shim
-	./fennel --compile --require-as-include $< > $@.lua
+	sed -e '\#^$$#q' $< | sed -e 's#;;#--#' > $@.lua
+	./fennel --compile --require-as-include $< >> $@.lua
 
 clean:
 	rm funcho.lua
